@@ -1,19 +1,107 @@
----
-layout: main
----
-{% for post in paginator.posts %}
-<article class="post">
-  {% if post.img %}
-    <a class="post-thumbnail" style="background-image: url({{"/assets/img/" | prepend: site.baseurl | append : post.img}})" href="{{post.url | prepend: site.baseurl}}"></a>
-  {% else %}
-  {% endif %}
-  <div class="post-content">
-    <h2 class="post-title"><a href="{{post.url | prepend: site.baseurl}}">{{post.title}}</a></h2>
-    <p>{{ post.content | strip_html | truncatewords: 15 }}</p>
-    <span class="post-date">{{post.date | date: '%Y, %b %d'}}&nbsp;&nbsp;&nbsp;—&nbsp;</span>
-    <span class="post-words">{% capture words %}{{ post.content | number_of_words }}{% endcapture %}{% unless words contains "-" %}{{ words | plus: 250 | divided_by: 250 | append: " minute read" }}{% endunless %}</span>
-  </div>
-</article>
-{% endfor %}
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>love</title>
+    <link href="./assets/img/favicon/favicon.ico" rel="shortcut icon" />
+    <style>
+        body{
+            margin: 0;
+            overflow: hidden;
+        }
+        h1{
+            position: fixed;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            transform:translateY(-50%);
+            font-family: 'Love Ya Like A Sister', cursive;
+            font-size: 40px;
+            color: #007788;
+            padding: 0 20px;
+        }
+        h1 span{
+            font-size:20px;
+        }
+    </style>
+</head>
+<body>
+<h1 id="h1"></h1>
+<canvas width=400 height=400 style="background:#000000;" id="canvas"></canvas>
+</body>
+<script>
+    //声明一片空间的名字叫做canvas
+    var canvas2 = document.getElementById("canvas");
+    //画板权限上下文
+    var ctx = canvas2.getContext("2d");
+    //约定大小
+    var s = window.screen;
+    var w = s.width;
+    var h = s.height;
+    //设置画板的大小
+    canvas2.width = w;
+    canvas2.height = h;
+    //字体
+    var fontSize = 14;
+    //计算一行有多少文字
+    var clos = Math.floor(w/fontSize);
+    var drops = [];
+    var str = "qwertyuiopasdfghjklzxcvbnm";
+    for (var i = 0; i < clos; i++) {
+        drops.push(0);
+    }
+    //定义一个定时器，每隔30毫秒执行一次
+    setInterval(drawString,30);
+    window.onload = function(){
+        var h1 = document.getElementById("h1");
 
-{% include pagination.html %}
+
+        time(h1,'2018-6-27');     // 在一起的时间
+        ptimer = setTimeout(starttime,1000); // 添加计时器
+    }
+
+    //绘制文字
+    function drawString() {
+        //给矩形设置填充色
+        ctx.fillStyle="rgba(0,0,0,0.05)"
+        //绘制一个矩形
+        ctx.fillRect(0,0,w,h);
+
+        //添加文字样式
+        ctx.font = "600 "+fontSize+"px 微软雅黑";
+        //设置文字颜色
+        ctx.fillStyle = "#00ff00";
+
+        for(var i = 0;i<clos;i++) {
+            //x坐标
+            var x = i*fontSize;
+            //y坐标
+            var y = drops[i]*fontSize;
+            //设置绘制文字
+            ctx.fillText(str[Math.floor(Math.random()*str.length)],x,y);
+            if(y>h&&Math.random()>0.99){
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+    }
+
+    function time(obj,futimg){
+        var nowtime = new Date().getTime(); // 现在时间转换为时间戳
+        var futruetime =  new Date(futimg).getTime(); // 未来时间转换为时间戳
+        var msec = nowtime-futruetime; // 毫秒 未来时间-现在时间
+        var time = (msec/1000);  // 毫秒/1000
+        var day = parseInt(time/86400); // 天  24*60*60*1000
+        var hour = parseInt(time/3600)-24*day;    // 小时 60*60 总小时数-过去的小时数=现在的小时数
+        var minute = parseInt(time%3600/60); // 分 -(day*24) 以60秒为一整份 取余 剩下秒数 秒数/60 就是分钟数
+        var second = parseInt(time%60);  // 以60秒为一整份 取余 剩下秒数
+//              console.log(hour+":"+minute+":"+second)
+//              alert(hour)
+        obj.innerHTML="大懒猪<br>咱俩在一起的时间已经：<br>"+day+"天"+hour+"小时"+minute+"分"+second+"秒"+"了<br><span>一时间不知道从哪说起,真爱来了，我们要好好把握。<br>不管面临多大的压力,不管前面的路如何崎岖.<br>不管经历过什么,我仍坚信最浪漫的事就是和你一起慢慢变老.<br>相信中间的计时器,将永远继续下去,直至数据溢出.</span>"
+
+        return true;
+    }
+</script>
+</html>
+
