@@ -11,8 +11,8 @@
         }
         h1{
             position: fixed;
-            top: 50%;
             left: 0;
+            top: 50%;
             width: 100%;
             text-align: center;
             transform:translateY(-50%);
@@ -31,8 +31,9 @@
     </style>
 </head>
 <body>
+<canvas style="background:#000000;" id="canvas">
+</canvas>
 <h1 id="h1"></h1>
-<canvas style="background:#000000;" id="canvas"></canvas>
 </body>
 <script>
     //声明一片空间的名字叫做canvas
@@ -41,8 +42,8 @@
     var ctx = canvas2.getContext("2d");
     //约定大小
     var s = window.screen;
-    var w = s.width;
-    var h = s.height;
+    var w = 980;
+    var h = 1963;
     //设置画板的大小
     canvas2.width = w;
     canvas2.height = h;
@@ -51,7 +52,7 @@
     //计算一行有多少文字
     var clos = Math.floor(w/fontSize);
     var drops = [];
-    var str = "qwertyuiopasdfghjklzxcvbnm";
+    var str = "qwertyuiopasdfghjklzxcvbn";
     for (var i = 0; i < clos; i++) {
         drops.push(0);
     }
