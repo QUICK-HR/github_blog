@@ -59,10 +59,9 @@
     setInterval(drawString,30);
     window.onload = function(){
         var h1 = document.getElementById("h1");
-
-
-        time(h1,'2018-6-27');     // 在一起的时间
-        ptimer = setTimeout(starttime,1000); // 添加计时器
+        setInterval(function(){
+            setTimeout(h1,'2018-6-27')
+        },1000)
     }
 
     //绘制文字
@@ -91,7 +90,7 @@
         }
     }
 
-    function time(obj,futimg){
+    function setTimeout(obj,futimg){
         var nowtime = new Date().getTime(); // 现在时间转换为时间戳
         var futruetime =  new Date(futimg).getTime(); // 未来时间转换为时间戳
         var msec = nowtime-futruetime; // 毫秒 未来时间-现在时间
